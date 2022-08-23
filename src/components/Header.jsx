@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../assets/img/pizza-logo.svg';
 import { Link } from 'react-router-dom';
+import { SearchPizza } from './index.js';
 
 export default function Header() {
   return (
@@ -15,6 +16,7 @@ export default function Header() {
             </div>
           </div>
         </Link>
+        <SearchPizza />
         <div className="header__cart">
           <Link to="/cart">
             <span href="#" className="button button--cart">

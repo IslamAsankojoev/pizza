@@ -5,18 +5,22 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import { Header } from './components/index.js';
 
+export const SearchContext = React.createContext('');
 function App() {
-  const SearchContext = React.createContext('');
+  const [searchPizza, setSearchPizza] = React.useState('');
+
   return (
     <>
       <div className="wrapper">
-        <Header />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="cart" element={<Cart />} />
-          </Routes>
-        </div>
+        <SearchContext.Provider value={{ searchPizza, setSearchPizza }}>
+          <Header />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="cart" element={<Cart />} />
+            </Routes>
+          </div>
+        </SearchContext.Provider>
       </div>
     </>
   );
