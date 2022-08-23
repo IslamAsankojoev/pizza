@@ -1,0 +1,51 @@
+// @import 'variables';
+$black: #232323;
+$background: #ffdf8c;
+$gray-line: #f6f6f6;
+$orange: #fe5f1e;
+
+$container-width: 90%;
+
+$duration: 0.15s;
+
+.categories {
+  width: 100%;
+  ul {
+    display: flex;
+    overflow: auto;
+    // width: 100%;
+    white-space: nowrap;
+    @media (max-width: 768px) {
+      background: #ececec;
+      border-radius: 60px;
+      padding: 6px;
+      box-shadow: inset 0px 0px 1px 0px #7f7f7f;
+    }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    li {
+      background-color: #f9f9f9;
+      padding: 13px 30px;
+      border-radius: 30px;
+      margin-right: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.1s ease-in-out;
+      @include noselect();
+
+      &:hover {
+        background-color: darken(#f9f9f9, 2%);
+      }
+
+      &:active {
+        background-color: darken(#f9f9f9, 5%);
+      }
+
+      &.active {
+        background-color: #282828;
+        color: #fff;
+      }
+    }
+  }
+}
