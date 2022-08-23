@@ -1,3 +1,8 @@
+React - Pizza
+
+<img width="1437" alt="image" src="https://user-images.githubusercontent.com/105052376/186076214-647c4ad2-b699-47b6-9204-c8ca7c0802f7.png">
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
