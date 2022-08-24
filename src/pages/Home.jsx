@@ -2,6 +2,7 @@ import React from 'react';
 import { PizzaBlock, Categories, SortPopup, PizzaScelet } from '../components/index.js';
 import axios from 'axios';
 import { SearchContext } from '../App.js';
+import Pagination from '../components/Pagination.jsx';
 
 function Home() {
   const CategoriesNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
@@ -10,6 +11,9 @@ function Home() {
   const [sortBy, setSortBy] = React.useState({ sortName: 'популярности', slug: 'rating' });
   const [categoryId, setCategoryId] = React.useState(0);
   const { searchPizza } = React.useContext(SearchContext);
+  const [page, setPage] = React.useState(0);
+  const [pageTotal, setPageTotal] = React.useState(0);
+  const page_limit = 8;
 
   React.useEffect(() => {
     axios
@@ -62,6 +66,7 @@ function Home() {
               return <PizzaBlock key={item.id} {...item} />;
             })}
       </div>
+      <Pagination limit={items} page={page} setPage={setPage} pageTotal={pageTotal} />
     </div>
   );
 }

@@ -9,9 +9,9 @@ export default function Header() {
       <div className="container">
         <Link to="/">
           <div className="header__logo">
-            <img width="38" src={logo} alt="Pizza logo" />
+            <img width="38" src="/pizza-logo.svg" alt="Pizza logo" />
             <div>
-              <h1>React Pizza</h1>
+              <h1>Dodo Pizza</h1>
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </div>
