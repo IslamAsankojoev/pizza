@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Cart() {
   return (
@@ -378,7 +379,7 @@ export default function Cart() {
             </span>
           </div>
           <div className="cart__bottom-buttons">
-            <Link to="/cart">
+            <Link to="/">
               <span className="button button--outline button--add go-back-btn">
                 <svg
                   width="8"
