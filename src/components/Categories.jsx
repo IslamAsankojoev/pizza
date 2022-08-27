@@ -1,21 +1,30 @@
-export default function Categories({ items, id, setId }) {
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/categorySlice';
+
+export default function Categories({ items }) {
+  const categoryId = useSelector((state) => {
+    return state.category.categoryId;
+  });
+  const dispatch = useDispatch();
+
   return (
     <div className="categories">
       <ul>
         <li
           onClick={() => {
-            setId(0);
+            dispatch(setCategoryId(0));
           }}
-          className={id === 0 ? 'active' : ''}>
+          className={categoryId === 0 ? 'active' : ''}>
           Все
         </li>
         {items &&
           items.map((item, index) => {
             return (
               <li
-                className={id === index + 1 ? 'active' : ''}
+                className={categoryId === index + 1 ? 'active' : ''}
                 onClick={() => {
-                  setId(index + 1);
+                  dispatch(setCategoryId(index + 1));
                 }}
                 key={index + 1}>
                 {item}

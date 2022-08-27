@@ -8,6 +8,19 @@ $container-width: 90%;
 
 $duration: 0.15s;
 
+.button[disabled] {
+  border-color: #bebebe;
+  color: #bebebe;
+  &:hover {
+    background-color: #bebebe;
+  }
+  svg {
+    path {
+      fill: #bebebe;
+    }
+  }
+}
+
 .button {
   display: inline-block;
   background-color: $orange;
