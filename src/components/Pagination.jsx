@@ -1,24 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/categorySlice.js';
 
-export default function Pagination({ limit, page, setPage, pageTotal }) {
+export default function Pagination() {
+  const dispatch = useDispatch();
   return (
-    <div className="pagination">
-      {Array(pageTotal)
-        .fill(null)
-        .map((_, id) => {
-          return (
-            <div key={id} className="pagination-item">
-              <span
-                onClick={() => {
-                  setPage(id + 1);
-                }}
-                className={`pagination-link ${page === id + 1 ? 'pagination-link-active' : ''}`}>
-                {id + 1}
-              </span>
-            </div>
-          );
-        })}
-    </div>
+    <button
+      onClick={() => {
+        dispatch(setCategoryId(1));
+      }}>
+      Давайте мясные
+    </button>
   );
 }

@@ -1,8 +1,28 @@
 import React from 'react';
 import { SearchContext } from '../App.js';
+import _ from 'lodash';
 
 const SearchPizza = () => {
-  const { searchPizza, setSearchPizza } = React.useContext(SearchContext);
+  const [value, setValue] = React.useState('');
+  const { setSearchPizza } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+  const onClickClear = () => {
+    setSearchPizza('');
+    setValue('');
+    inputRef.current.focus();
+  };
+
+  const updateSearchValue = React.useCallback(() => {
+    _.debounce((str) => {
+      setSearchPizza(str);
+    }, 150);
+  }, []);
+
+  const onChangeInput = (e) => {
+    updateSearchValue(e.target.value);
+    setValue(e.target.value);
+  };
   return (
     <>
       <span className="searchPizza">
@@ -38,20 +58,15 @@ const SearchPizza = () => {
             y2="20.366"></line>
         </svg>
         <input
+          ref={inputRef}
           placeholder="Поиск пиццы..."
           type="text"
-          value={searchPizza}
-          onChange={(e) => {
-            setSearchPizza(e.target.value);
-          }}
+          value={value}
+          onChange={onChangeInput}
         />
-        {searchPizza && (
+        {value && (
           <div className="cart__item-remove">
-            <div
-              className="button button--outline button--circle"
-              onClick={() => {
-                setSearchPizza('');
-              }}>
+            <div className="button button--outline button--circle" onClick={onClickClear}>
               <svg
                 width="10"
                 height="10"

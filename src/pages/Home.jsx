@@ -1,21 +1,25 @@
 import React from 'react';
-import { PizzaBlock, Categories, SortPopup, PizzaScelet } from '../components/index.js';
+import { PizzaBlock, Categories, SortPopup, PizzaScelet } from '../components/index';
 import axios from 'axios';
 import { SearchContext } from '../App.js';
-import Pagination from '../components/Pagination.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPizzas } from '../redux/slices/pizzaSlice';
 
 function Home() {
-  const CategoriesNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-  const [items, setItems] = React.useState([]);
+  const categoriesNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+  const sortItems = [
+    { sortName: 'популярности', slug: 'rating' },
+    { sortName: 'цене', slug: 'price' },
+    { sortName: 'алфавиту', slug: 'title' },
+  ];
+  const items = useSelector((state) => state.pizzas.items);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [sortBy, setSortBy] = React.useState({ sortName: 'популярности', slug: 'rating' });
-  const [categoryId, setCategoryId] = React.useState(0);
+  const sortBy = useSelector((state) => state.sort.sortBy);
+  const categoryId = useSelector((state) => state.category.categoryId);
+  const dispatch = useDispatch();
   const { searchPizza } = React.useContext(SearchContext);
-  const [page, setPage] = React.useState(0);
-  const [pageTotal, setPageTotal] = React.useState(0);
-  const page_limit = 8;
-
   React.useEffect(() => {
+    setIsLoading(true);
     axios
       .get(
         `https://6301d3a89a1035c7f80798e1.mockapi.io/items` +
@@ -24,7 +28,7 @@ function Home() {
           `${searchPizza ? `&search=${searchPizza}` : ''}`,
       )
       .then((res) => {
-        setItems(res.data);
+        dispatch(setPizzas(res.data));
         setIsLoading(false);
         window.scrollTo(0, 0);
       })
@@ -36,24 +40,11 @@ function Home() {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          onClick={() => {}}
-          items={CategoriesNames}
-          id={categoryId}
-          setId={setCategoryId}
-        />
-        <SortPopup
-          items={[
-            { sortName: 'популярности', slug: 'rating' },
-            { sortName: 'цене', slug: 'price' },
-            { sortName: 'алфавиту', slug: 'title' },
-          ]}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
+        <Categories items={categoriesNames} />
+        <SortPopup items={sortItems} />
       </div>
       <h2 className="content__title">
-        {categoryId > 0 ? `${CategoriesNames[items[0].category - 1]}` : 'Все пиццы'}
+        {categoryId > 0 ? `${categoriesNames[categoryId - 1]}` : 'Все пиццы'}
       </h2>
       <div className="content__items">
         {isLoading
@@ -62,11 +53,12 @@ function Home() {
               .map((_, index) => {
                 return <PizzaScelet key={index} />;
               })
-          : items.map((item) => {
+          : items.length > 0
+          ? items.map((item) => {
               return <PizzaBlock key={item.id} {...item} />;
-            })}
+            })
+          : ''}
       </div>
-      <Pagination limit={items} page={page} setPage={setPage} pageTotal={pageTotal} />
     </div>
   );
 }

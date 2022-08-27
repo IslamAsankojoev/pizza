@@ -1,23 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSortBy } from '../redux/slices/sortSlice';
 
-export default function SortPopup({ items, sortBy, setSortBy }) {
+export default function SortPopup({ items }) {
   const [visiblePopup, setVisisblePopup] = useState(false);
+  const sortBy = useSelector((state) => {
+    return state.sort.sortBy;
+  });
+  const dispatch = useDispatch();
   const sortRef = useRef();
   const toggleVisiblePopup = () => {
     setVisisblePopup((prev) => !prev);
   };
   const onSelectItem = (item) => {
-    setSortBy(item);
+    dispatch(setSortBy(item));
     setVisisblePopup(false);
   };
 
-  const handleOutsideClick = (e) => {
-    if (!e.path.includes(sortRef.current)) {
-      setVisisblePopup((prev) => false);
-    }
-  };
   useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setVisisblePopup((prev) => false);
+      }
+    };
     document.body.addEventListener('click', handleOutsideClick);
+    return () => document.body.removeEventListener('click', handleOutsideClick);
   }, []);
 
   return (
