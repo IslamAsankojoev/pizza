@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/categorySlice.js';
+import { setCategoryId } from '../redux/slices/categorySlice';
 
 export default function Pagination() {
   const dispatch = useDispatch();

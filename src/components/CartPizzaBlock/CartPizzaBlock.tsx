@@ -1,9 +1,29 @@
 import React from 'react';
-import { removeFromCart, cartDecrement, cartIncrement } from '../../redux/slices/cartSlice.js';
+import { removeFromCart, cartDecrement, addToCart } from '../../redux/slices/cartSlice';
 import { useDispatch } from 'react-redux';
 
-export default function CartPizzaBlock({ id, title, imageUrl, price, types, sizes, count }) {
+interface CartPizzaBlockProps {
+  id: number;
+  title: string;
+  imageUrl: string;
+  price: number;
+  types: number[];
+  sizes: number[];
+  count: number;
+}
+
+const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, price, types, sizes, count }) => {
   const dispatch = useDispatch();
+
+  const onClickAdd = () => {
+    dispatch(addToCart({ id, title, imageUrl, price, types, sizes, count }));
+  };
+  const onDecrementItem = () => {
+    dispatch(cartDecrement(id));
+  };
+  const onRemoveItem = () => {
+    dispatch(removeFromCart({ id, title }));
+  };
 
   return (
     <div className="cart__item">
@@ -18,10 +38,9 @@ export default function CartPizzaBlock({ id, title, imageUrl, price, types, size
       </div>
       <div className="cart__item-count">
         <button
-          onClick={() => {
-            dispatch(cartDecrement(id));
-          }}
-          disabled={count <= 1}
+          onClick={onDecrementItem}
+          // @ts-ignore
+          disabled={count <= 1 && 'disabled'}
           className="button button--outline button--circle cart__item-count-minus">
           <svg
             width="10"
@@ -41,9 +60,7 @@ export default function CartPizzaBlock({ id, title, imageUrl, price, types, size
         </button>
         <b>{count}</b>
         <div
-          onClick={() => {
-            dispatch(cartIncrement(id));
-          }}
+          onClick={onClickAdd}
           className="button button--outline button--circle cart__item-count-plus">
           <svg
             width="10"
@@ -66,11 +83,7 @@ export default function CartPizzaBlock({ id, title, imageUrl, price, types, size
         <b>{count * price} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div
-          onClick={() => {
-            dispatch(removeFromCart(id));
-          }}
-          className="button button--outline button--circle">
+        <div onClick={onRemoveItem} className="button button--outline button--circle">
           <svg
             width="10"
             height="10"
@@ -91,3 +104,6 @@ export default function CartPizzaBlock({ id, title, imageUrl, price, types, size
     </div>
   );
 }
+
+
+export default CartPizzaBlock;

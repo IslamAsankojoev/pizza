@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CartPizzaBlock } from '../components/index';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCart } from '../redux/slices/cartSlice.js';
+import { clearCart } from '../redux/slices/cartSlice';
 
 export default function Cart() {
-  const { totalPrice, totalItems, items } = useSelector((state) => {
+  const { totalPrice, totalItems, items } = useSelector((state:any) => {
     return state.cart;
   });
   const dispatch = useDispatch();
@@ -93,12 +93,12 @@ export default function Cart() {
             </div>
             <div className="content__items">
               {items &&
-                items.map((item) => {
+                items.map((item:any) => {
                   return <CartPizzaBlock key={item.id} {...item} />;
                 })}
             </div>
             <div className="cart__bottom">
-              <div className="cart__bottom-details">
+              <div className="cart__bottom-details"> 
                 <span>
                   {' '}
                   Всего пицц: <b>{totalItems} шт.</b>{' '}
@@ -137,10 +137,10 @@ export default function Cart() {
           </div>
         </div>
       ) : (
-        <div class="container container--cart">
-          <div class="cart cart--empty">
+        <div className="container container--cart">
+          <div className="cart cart--empty">
             <h2>
-              Корзина пустая <icon>😕</icon>
+              Корзина пустая <b>😕</b>
             </h2>
             <p>
               Вероятней всего, вы не заказывали ещё пиццу.
@@ -148,7 +148,7 @@ export default function Cart() {
               Для того, чтобы заказать пиццу, перейди на главную страницу.
             </p>
             <img src="/empty-cart.png" alt="Empty cart" />
-            <Link to="/" class="button button--black">
+            <Link to="/" className="button button--black">
               <span>Вернуться назад</span>
             </Link>
           </div>

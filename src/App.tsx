@@ -5,7 +5,8 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import { Header } from './components/index.js';
 
-export const SearchContext = React.createContext('');
+export const SearchContext = React.createContext<any>({});
+
 function App() {
   const [searchPizza, setSearchPizza] = React.useState('');
 

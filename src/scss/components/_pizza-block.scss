@@ -11,6 +11,7 @@ $duration: 0.15s;
 .pizza-wrapper {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .pizza-block {
   width: 280px;
