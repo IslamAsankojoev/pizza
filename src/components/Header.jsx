@@ -1,13 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SearchPizza } from './index.js';
-import { useSelector } from 'react-redux';
+import { SearchPizza } from './index';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCart } from '../redux/slices/cartSlice';
 
 export default function Header() {
-  const { totalPrice, totalItems } = useSelector((state) => {
-    return state.cart;
-  });
+  const { totalPrice, totalItems } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch(setCart(JSON.parse(localStorage.getItem('cart'))));
+    console.log();
+  }, [dispatch]);
   return (
     <div className="header">
       <div className="container">

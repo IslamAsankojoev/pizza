@@ -1,10 +1,11 @@
 import React from 'react';
-import { SearchContext } from '../App.js';
+import { SearchContext } from '../App.tsx';
 import _ from 'lodash';
 
 const SearchPizza = () => {
   const [value, setValue] = React.useState('');
-  const { setSearchPizza } = React.useContext(SearchContext);
+  const { setSearchPizza, searchPizza } = React.useContext(SearchContext);
+
   const inputRef = React.useRef();
 
   const onClickClear = () => {
@@ -13,16 +14,21 @@ const SearchPizza = () => {
     inputRef.current.focus();
   };
 
-  const updateSearchValue = React.useCallback(() => {
+  const updateSearchValue = React.useCallback(
     _.debounce((str) => {
       setSearchPizza(str);
-    }, 150);
-  }, []);
+    }, 200),
+    [],
+  );
 
   const onChangeInput = (e) => {
     updateSearchValue(e.target.value);
     setValue(e.target.value);
   };
+
+  React.useEffect(() => {
+    console.log(searchPizza, 12);
+  }, [searchPizza]);
   return (
     <>
       <span className="searchPizza">

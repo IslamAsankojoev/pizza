@@ -1,14 +1,26 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToCart } from '../../redux/slices/cartSlice.js';
+import { addToCart } from '../../redux/slices/cartSlice';
+import { Link } from 'react-router-dom';
+
+
+interface PizzaBlockProps {
+  id: number;
+  title: string;
+  imageUrl: string;
+  price: number;
+  types: number[];
+  sizes: number[];
+}
 
 const typeNames = ['тонкое', 'традиционное'];
 
-export default function PizzaBlock({ id, title, imageUrl, price, types, sizes }) {
+
+const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, types, sizes })=> {
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(0);
   const dispatch = useDispatch();
-  const addedToCart = useSelector((state) => state.cart.items.find((item) => item.id === id));
+  const addedToCart = useSelector((state:any) => state.cart?.items?.find((item:any) => item.id === id));
 
   const onClickAdd = () => {
     const item = {
@@ -26,10 +38,12 @@ export default function PizzaBlock({ id, title, imageUrl, price, types, sizes })
     <div className="pizza-wrapper">
       <div className="pizza-block">
         <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-        <h4 className="pizza-block__title">{title}</h4>
+        <Link to="/" className="pizza-block__link">
+          <h4 className="pizza-block__title">{title}</h4>
+        </Link>
         <div className="pizza-block__selector">
           <ul>
-            {types.map((type, index) => (
+            {types.map((type:number, index:number) => (
               <li
                 key={index}
                 className={activeType === type ? 'active' : ''}
@@ -42,7 +56,7 @@ export default function PizzaBlock({ id, title, imageUrl, price, types, sizes })
           </ul>
           <ul>
             {sizes &&
-              sizes.map((size, id) => (
+              sizes.map((size:number, id:number) => (
                 <li
                   className={activeSize === id ? 'active' : ''}
                   onClick={() => {
@@ -76,3 +90,5 @@ export default function PizzaBlock({ id, title, imageUrl, price, types, sizes })
     </div>
   );
 }
+
+export  default PizzaBlock;

@@ -39,6 +39,11 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error {
+    text-align: center;
+    padding: 50px 0px;
+  }
+
   &__title {
     margin: 35px 0;
   }
@@ -209,6 +214,7 @@ body {
       width: 13%;
       @media (max-width: 768px) {
         width: 23%;
+        transform: translateY(-25px);
       }
 
       &-minus {
@@ -229,7 +235,9 @@ body {
       align-items: center;
       justify-content: center;
       width: 33%;
-
+      @media (max-width: 768px) {
+        transform: translateY(-25px);
+      }
       b {
         font-weight: bold;
         font-size: 22px;
@@ -242,7 +250,9 @@ body {
       align-items: center;
       justify-content: flex-end;
       width: 4%;
-
+      @media (max-width: 768px) {
+        transform: translateY(-25px);
+      }
       .button {
         border-color: darken($color: $gray-line, $amount: 10);
       }

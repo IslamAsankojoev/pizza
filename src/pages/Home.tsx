@@ -1,41 +1,34 @@
 import React from 'react';
 import { PizzaBlock, Categories, SortPopup, PizzaScelet } from '../components/index';
-import axios from 'axios';
-import { SearchContext } from '../App.js';
+import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPizzas } from '../redux/slices/pizzaSlice';
+import { fetchPizza } from '../redux/slices/pizzaSlice';
 
-function Home() {
+
+const Home: React.FC = () => {
   const categoriesNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
   const sortItems = [
     { sortName: 'популярности', slug: 'rating' },
     { sortName: 'цене', slug: 'price' },
     { sortName: 'алфавиту', slug: 'title' },
   ];
-  const items = useSelector((state) => state.pizzas.items);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const sortBy = useSelector((state) => state.sort.sortBy);
-  const categoryId = useSelector((state) => state.category.categoryId);
+  const { items, status } = useSelector((state:any) => state.pizza);
+  const sortBy = useSelector((state:any) => state.sort.sortBy);
+  const categoryId = useSelector((state:any) => state.category.categoryId);
   const dispatch = useDispatch();
   const { searchPizza } = React.useContext(SearchContext);
+
   React.useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(
-        `https://6301d3a89a1035c7f80798e1.mockapi.io/items` +
-          `${categoryId > 0 ? `?category=${categoryId}` : ''}` +
-          `${categoryId ? `&sortBy=${sortBy.slug}` : `?sortBy=${sortBy.slug}`}` +
-          `${searchPizza ? `&search=${searchPizza}` : ''}`,
-      )
-      .then((res) => {
-        dispatch(setPizzas(res.data));
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [categoryId, sortBy, searchPizza]);
+    dispatch(
+      fetchPizza({
+        categoryId,
+        sortBy,
+        searchPizza
+      }
+      ),
+    );
+    window.scrollTo(0, 0);
+  }, [categoryId, sortBy, searchPizza, dispatch]);
 
   return (
     <div className="container">
@@ -47,20 +40,38 @@ function Home() {
         {categoryId > 0 ? `${categoriesNames[categoryId - 1]}` : 'Все пиццы'}
       </h2>
       <div className="content__items">
-        {isLoading
+        {status === 'loading'
           ? Array(8)
               .fill(null)
               .map((_, index) => {
                 return <PizzaScelet key={index} />;
               })
           : items.length > 0
-          ? items.map((item) => {
+          ? items.map((item:any) => {
               return <PizzaBlock key={item.id} {...item} />;
             })
           : ''}
       </div>
+      {status === 'error' ? (
+        <div className="content__error">
+          <h2>
+            Здесь пиццы не осталось <i>😕</i>
+          </h2>
+          <h5>
+            {' '}
+            <p>
+              <br />
+              Сори бро что не получилось тебя покормить.
+              <br />
+              Для того, чтобы заказать пиццу, перейди на главную страницу.
+            </p>
+          </h5>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
-}
+};
 
 export default Home;
