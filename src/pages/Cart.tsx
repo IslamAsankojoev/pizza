@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { CartPizzaBlock } from '../components/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCart } from '../redux/slices/cartSlice';
+import {RootSate} from "../redux/store";
 
 export default function Cart() {
-  const { totalPrice, totalItems, items } = useSelector((state:any) => {
+  const { totalPrice, totalItems, items } = useSelector((state: RootSate) => {
     return state.cart;
   });
   const dispatch = useDispatch();

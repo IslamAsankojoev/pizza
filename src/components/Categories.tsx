@@ -1,9 +1,16 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId } from '../redux/slices/categorySlice';
+import { RootSate } from '../redux/store';
 
-export default function Categories({ items }) {
-  const categoryId = useSelector((state) => {
+
+interface CategoriesProps {
+  items: string[];
+}
+
+
+const Categories: React.FC<CategoriesProps> = ({ items }) => {
+  const categoryId = useSelector((state: RootSate) => {
     return state.category.categoryId;
   });
   const dispatch = useDispatch();
@@ -35,3 +42,4 @@ export default function Categories({ items }) {
     </div>
   );
 }
+export default Categories;

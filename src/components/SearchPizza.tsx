@@ -1,27 +1,29 @@
 import React from 'react';
-import { SearchContext } from '../App.tsx';
+import { SearchContext } from '../App';
 import _ from 'lodash';
 
-const SearchPizza = () => {
+const SearchPizza: React.FC = () => {
   const [value, setValue] = React.useState('');
   const { setSearchPizza, searchPizza } = React.useContext(SearchContext);
 
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement | any>();
 
   const onClickClear = () => {
     setSearchPizza('');
     setValue('');
-    inputRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const updateSearchValue = React.useCallback(
-    _.debounce((str) => {
+    _.debounce((str: string): void => {
       setSearchPizza(str);
     }, 200),
     [],
-  );
+  )
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateSearchValue(e.target.value);
     setValue(e.target.value);
   };

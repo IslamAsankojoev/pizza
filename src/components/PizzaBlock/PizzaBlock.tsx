@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { Link } from 'react-router-dom';
+import { RootSate } from "../../redux/store";
 
 
 interface PizzaBlockProps {
@@ -16,11 +17,11 @@ interface PizzaBlockProps {
 const typeNames = ['тонкое', 'традиционное'];
 
 
-const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, types, sizes })=> {
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, types, sizes }) => {
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(0);
   const dispatch = useDispatch();
-  const addedToCart = useSelector((state:any) => state.cart?.items?.find((item:any) => item.id === id));
+  const addedToCart = useSelector((state: RootSate) => state.cart?.items?.find((item) => item.id === id));
 
   const onClickAdd = () => {
     const item = {
@@ -30,6 +31,7 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, type
       price,
       types: typeNames[activeType],
       sizes: sizes[activeSize],
+      count: 1,
     };
     dispatch(addToCart(item));
   };
@@ -43,7 +45,7 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, type
         </Link>
         <div className="pizza-block__selector">
           <ul>
-            {types.map((type:number, index:number) => (
+            {types.map((type: number, index: number) => (
               <li
                 key={index}
                 className={activeType === type ? 'active' : ''}
@@ -56,7 +58,7 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, type
           </ul>
           <ul>
             {sizes &&
-              sizes.map((size:number, id:number) => (
+              sizes.map((size: number, id: number) => (
                 <li
                   className={activeSize === id ? 'active' : ''}
                   onClick={() => {
@@ -91,4 +93,4 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, imageUrl, price, type
   );
 }
 
-export  default PizzaBlock;
+export default PizzaBlock;

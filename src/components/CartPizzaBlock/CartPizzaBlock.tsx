@@ -7,8 +7,8 @@ interface CartPizzaBlockProps {
   title: string;
   imageUrl: string;
   price: number;
-  types: number[];
-  sizes: number[];
+  types: string;
+  sizes: number;
   count: number;
 }
 
@@ -22,7 +22,7 @@ const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, pri
     dispatch(cartDecrement(id));
   };
   const onRemoveItem = () => {
-    dispatch(removeFromCart({ id, title }));
+    dispatch(removeFromCart(id));
   };
 
   return (

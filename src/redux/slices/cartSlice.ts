@@ -1,13 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 type CartItem = {
         id: number;
         title: string;
         imageUrl: string;
         price: number;
-        types: number;
+        types: string;
         sizes: number;
         count: number;
 }
@@ -25,18 +23,18 @@ const initialState: CartState = {
 };
 
 const countPriceItemsTotal = (state:CartState) => {
-  state.totalPrice = state.items?.reduce(
-    (totalPrice, item) => totalPrice + item.price * item.count,
-    0,
-  );
-  state.totalItems = state.items?.reduce((totalItems, item) => totalItems + item.count, 0);
+        state.totalPrice = state.items?.reduce(
+            (totalPrice, item) => totalPrice + item.price * item.count,
+            0,
+            );
+        state.totalItems = state.items?.reduce((totalItems, item) => totalItems + item.count, 0);
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart(state, action) {
+    addToCart(state, action:PayloadAction<CartItem>) {
       const findedItem = state.items.find((item) => item.id === action.payload.id);
       if (findedItem) {
         findedItem.count++;
@@ -47,9 +45,9 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state.items));
     },
 
-    removeFromCart(state, action) {
+    removeFromCart(state, action:PayloadAction<number>) {
       state.items = state.items.filter((item) => {
-        return item.id !== action.payload.id;
+        return item.id !== action.payload;
       });
 
       countPriceItemsTotal(state);
@@ -63,7 +61,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state.items));
     },
 
-    cartIncrement(state, action) {
+    cartIncrement(state, action:PayloadAction<number>) {
       state.items = state.items.map((item) => {
         if (item.id === action.payload) {
           item.count++;
@@ -75,13 +73,13 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state.items));
     },
 
-    setCart(state, action) {
+      setCart(state, action:PayloadAction<CartItem[]>) {
       state.items = action.payload;
       countPriceItemsTotal(state);
       localStorage.setItem('cart', JSON.stringify(state.items));
     },
 
-    cartDecrement(state, action) {
+    cartDecrement(state, action:PayloadAction<number>) {
       state.items = state.items.map((item) => {
         if (item.id === action.payload) {
           item.count--;

@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import { SearchPizza } from './index';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCart } from '../redux/slices/cartSlice';
+import { RootSate } from '../redux/store';
 
 export default function Header() {
-  const { totalPrice, totalItems } = useSelector((state) => state.cart);
+  const { totalPrice, totalItems } = useSelector((state: RootSate) => state.cart);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(setCart(JSON.parse(localStorage.getItem('cart'))));
+    dispatch(setCart(JSON.parse(localStorage.getItem('cart') || '')));
     console.log();
   }, [dispatch]);
   return (
@@ -27,7 +28,7 @@ export default function Header() {
         <SearchPizza />
         <div className="header__cart">
           <Link to="/cart">
-            <span href="#" className="button button--cart">
+            <span className="button button--cart">
               <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
               <svg

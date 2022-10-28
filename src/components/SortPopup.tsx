@@ -1,24 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSortBy } from '../redux/slices/sortSlice';
+import { RootSate } from '../redux/store';
 
-export default function SortPopup({ items }) {
+type sortItem = {
+  sortName: string;
+  slug: string;
+};
+
+interface SortPopupProps {
+  items: sortItem[];
+}
+
+const SortPopup: React.FC<SortPopupProps> = ({ items }) => {
   const [visiblePopup, setVisisblePopup] = useState(false);
-  const sortBy = useSelector((state) => {
+  const sortBy = useSelector((state: RootSate) => {
     return state.sort.sortBy;
   });
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement | any>();
   const toggleVisiblePopup = () => {
     setVisisblePopup((prev) => !prev);
   };
-  const onSelectItem = (item) => {
+  const onSelectItem = (item: sortItem) => {
     dispatch(setSortBy(item));
     setVisisblePopup(false);
   };
 
   useEffect(() => {
-    const handleOutsideClick = (e) => {
+    const handleOutsideClick = (e
+      : any
+      | MouseEvent
+    ) => {
       if (!e.path.includes(sortRef.current)) {
         setVisisblePopup((prev) => false);
       }
@@ -56,7 +69,6 @@ export default function SortPopup({ items }) {
                 return (
                   <li
                     key={item.sortName + id}
-                    className={sortBy === id ? 'active' : ''}
                     onClick={() => {
                       onSelectItem(item);
                     }}>
@@ -70,3 +82,5 @@ export default function SortPopup({ items }) {
     </div>
   );
 }
+
+export default SortPopup;

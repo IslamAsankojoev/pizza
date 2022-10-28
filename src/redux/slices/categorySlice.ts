@@ -1,6 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface categoryState {
+    categoryId: number;
+}
+
+const initialState: categoryState = {
     categoryId: 0,
 }
 
@@ -8,7 +12,7 @@ const categorySlice = createSlice({
   name: 'category',
     initialState,
   reducers: {
-    setCategoryId(state, action) {
+    setCategoryId(state, action:PayloadAction<number>) {
       state.categoryId = action.payload;
     },
   },
