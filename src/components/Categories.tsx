@@ -3,11 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId } from '../redux/slices/categorySlice';
 import { RootSate } from '../redux/store';
 
-
 interface CategoriesProps {
   items: string[];
 }
-
 
 const Categories: React.FC<CategoriesProps> = ({ items }) => {
   const categoryId = useSelector((state: RootSate) => {
@@ -22,7 +20,8 @@ const Categories: React.FC<CategoriesProps> = ({ items }) => {
           onClick={() => {
             dispatch(setCategoryId(0));
           }}
-          className={categoryId === 0 ? 'active' : ''}>
+          className={categoryId === 0 ? 'active' : ''}
+        >
           Все
         </li>
         {items &&
@@ -33,7 +32,8 @@ const Categories: React.FC<CategoriesProps> = ({ items }) => {
                 onClick={() => {
                   dispatch(setCategoryId(index + 1));
                 }}
-                key={index + 1}>
+                key={index + 1}
+              >
                 {item}
               </li>
             );
@@ -41,5 +41,5 @@ const Categories: React.FC<CategoriesProps> = ({ items }) => {
       </ul>
     </div>
   );
-}
+};
 export default Categories;

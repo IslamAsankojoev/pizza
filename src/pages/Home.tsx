@@ -4,7 +4,6 @@ import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPizza } from '../redux/slices/pizzaSlice';
 
-
 const Home: React.FC = () => {
   const categoriesNames = ['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
   const sortItems = [
@@ -12,9 +11,9 @@ const Home: React.FC = () => {
     { sortName: 'цене', slug: 'price' },
     { sortName: 'алфавиту', slug: 'title' },
   ];
-  const { items, status } = useSelector((state:any) => state.pizza);
-  const sortBy = useSelector((state:any) => state.sort.sortBy);
-  const categoryId = useSelector((state:any) => state.category.categoryId);
+  const { items, status } = useSelector((state: any) => state.pizza);
+  const sortBy = useSelector((state: any) => state.sort.sortBy);
+  const categoryId = useSelector((state: any) => state.category.categoryId);
   const dispatch = useDispatch();
   const { searchPizza } = React.useContext(SearchContext);
 
@@ -23,9 +22,8 @@ const Home: React.FC = () => {
       fetchPizza({
         categoryId,
         sortBy,
-        searchPizza
-      }
-      ),
+        searchPizza,
+      }),
     );
     window.scrollTo(0, 0);
   }, [categoryId, sortBy, searchPizza, dispatch]);
@@ -47,7 +45,7 @@ const Home: React.FC = () => {
                 return <PizzaScelet key={index} />;
               })
           : items.length > 0
-          ? items.map((item:any) => {
+          ? items.map((item: any) => {
               return <PizzaBlock key={item.id} {...item} />;
             })
           : ''}

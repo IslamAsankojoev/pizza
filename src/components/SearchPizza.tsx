@@ -16,12 +16,13 @@ const SearchPizza: React.FC = () => {
     }
   };
 
+  // eslint-disable-next-line
   const updateSearchValue = React.useCallback(
     _.debounce((str: string): void => {
       setSearchPizza(str);
     }, 200),
     [],
-  )
+  );
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateSearchValue(e.target.value);
@@ -40,7 +41,8 @@ const SearchPizza: React.FC = () => {
           id="EditableLine"
           version="1.1"
           viewBox="0 0 32 32"
-          xmlns="http://www.w3.org/2000/svg">
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <circle
             cx="14"
             cy="14"
@@ -51,7 +53,8 @@ const SearchPizza: React.FC = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeMiterlimit="10"
-            strokeWidth="2"></circle>
+            strokeWidth="2"
+          ></circle>
           <line
             fill="none"
             id="XMLID_44_"
@@ -63,7 +66,8 @@ const SearchPizza: React.FC = () => {
             x1="27"
             x2="20.366"
             y1="27"
-            y2="20.366"></line>
+            y2="20.366"
+          ></line>
         </svg>
         <input
           ref={inputRef}
@@ -80,7 +84,8 @@ const SearchPizza: React.FC = () => {
                 height="10"
                 viewBox="0 0 10 10"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
                   fill="#EB5A1E"

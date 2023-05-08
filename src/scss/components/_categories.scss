@@ -12,25 +12,26 @@ $duration: 0.15s;
   width: 100%;
   ul {
     display: flex;
-    overflow: auto;
-    // width: 100%;
-    white-space: nowrap;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
     @media (max-width: 768px) {
-      background: #ececec;
       border-radius: 60px;
       padding: 6px;
-      box-shadow: inset 0px 0px 1px 0px #7f7f7f;
+      justify-content: center;
     }
     &::-webkit-scrollbar {
       display: none;
     }
     li {
-      background-color: #f9f9f9;
+      background-color: #edeff1;
       padding: 13px 30px;
       border-radius: 30px;
-      margin-right: 10px;
       font-weight: bold;
       cursor: pointer;
+      @media (max-width: 768px) {
+        padding: 8px 12px;
+      }
       transition: background-color 0.1s ease-in-out;
       @include noselect();
 
