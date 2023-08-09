@@ -1,49 +1,49 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSortBy } from '../redux/slices/sortSlice';
-import { RootSate } from '../redux/store';
+import { FC, useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { useTypedSelector } from "hooks/useTypedSelector"
+import { useActions } from "hooks/useActions"
 
 type sortItem = {
-  sortName: string;
-  slug: string;
-};
-
-interface SortPopupProps {
-  items: sortItem[];
+  sortName: string
+  slug: string
 }
 
-const SortPopup: React.FC<SortPopupProps> = ({ items }) => {
-  const [visiblePopup, setVisisblePopup] = useState(false);
-  const sortBy = useSelector((state: RootSate) => {
-    return state.sort.sortBy;
-  });
-  const dispatch = useDispatch();
-  const sortRef = useRef<HTMLDivElement | any>();
+interface SortPopupProps {
+  items: sortItem[]
+}
+
+const SortPopup: FC<SortPopupProps> = ({ items }) => {
+  const [visiblePopup, setVisiblePopup] = useState(false)
+  const sortBy = useTypedSelector((state) => state.sort.sortBy)
+  const { setSortBy } = useActions()
+  const dispatch = useDispatch()
+  const sortRef = useRef<HTMLDivElement | any>()
+
   const toggleVisiblePopup = () => {
-    setVisisblePopup((prev) => !prev);
-  };
+    setVisiblePopup((prev) => !prev)
+  }
+
   const onSelectItem = (item: sortItem) => {
-    dispatch(setSortBy(item));
-    setVisisblePopup(false);
-  };
+    dispatch(setSortBy(item))
+    setVisiblePopup(false)
+  }
 
   useEffect(() => {
-    const handleOutsideClick = (e: any | MouseEvent) => {
-      if (!e.path?.includes(sortRef.current)) {
-        setVisisblePopup((prev) => false);
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (!e.composedPath()?.includes(sortRef.current)) {
+        setVisiblePopup(false)
       }
-    };
-    document.body.addEventListener('click', handleOutsideClick);
-    return () => document.body.removeEventListener('click', handleOutsideClick);
-  }, []);
+    }
+    document.body.addEventListener("click", handleOutsideClick)
+    return () => document.body.removeEventListener("click", handleOutsideClick)
+  }, [])
 
   return (
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <b>
-          {' '}
           <svg
-            className={visiblePopup ? 'rotated' : ''}
+            className={visiblePopup ? "rotated" : ""}
             width="10"
             height="6"
             viewBox="0 0 10 6"
@@ -62,24 +62,21 @@ const SortPopup: React.FC<SortPopupProps> = ({ items }) => {
       {visiblePopup && (
         <div className="sort__popup">
           <ul>
-            {items &&
-              items.map((item, id) => {
+            {items?.map((item, id) => {
                 return (
                   <li
                     key={item.sortName + id}
-                    onClick={() => {
-                      onSelectItem(item);
-                    }}
+                    onClick={() => onSelectItem(item)}
                   >
                     {item.sortName}
                   </li>
-                );
+                )
               })}
           </ul>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SortPopup;
+export default SortPopup

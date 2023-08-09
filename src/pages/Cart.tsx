@@ -1,19 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { CartPizzaBlock } from '../components/index';
-import { useSelector, useDispatch } from 'react-redux';
-import { clearCart } from '../redux/slices/cartSlice';
-import {RootSate} from "../redux/store";
+import { Link } from "react-router-dom"
+import { CartPizzaBlock } from "components"
+import { useDispatch } from "react-redux"
+import CartEmpty from "components/Empty/CartEmpty"
+import { useTypedSelector } from "hooks/useTypedSelector"
+import { useActions } from "hooks/useActions"
 
 export default function Cart() {
-  const { totalPrice, totalItems, items } = useSelector((state: RootSate) => {
-    return state.cart;
-  });
-  const dispatch = useDispatch();
+  const { totalPrice, totalItems, items } = useTypedSelector((state) => state.cart)
+  const dispatch = useDispatch()
+  const {clearCart} = useActions()
+
+  const clearCartHandler = () => {
+    dispatch(clearCart())
+  }
 
   return (
     <>
-      {items.length > 0 ? (
+      {!!items.length ? (
         <div className="container container--cart">
           <div className="cart">
             <div className="cart__top">
@@ -23,7 +26,8 @@ export default function Cart() {
                   height="18"
                   viewBox="0 0 18 18"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M6.33333 16.3333C7.06971 16.3333 7.66667 15.7364 7.66667 15C7.66667 14.2636 7.06971 13.6667 6.33333 13.6667C5.59695 13.6667 5 14.2636 5 15C5 15.7364 5.59695 16.3333 6.33333 16.3333Z"
                     stroke="white"
@@ -48,17 +52,14 @@ export default function Cart() {
                 </svg>
                 Корзина
               </h2>
-              <div
-                onClick={() => {
-                  dispatch(clearCart());
-                }}
-                className="cart__clear">
+              <div onClick={clearCartHandler} className="cart__clear">
                 <svg
                   width="20"
                   height="20"
                   viewBox="0 0 20 20"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M2.5 5H4.16667H17.5"
                     stroke="#B6B6B6"
@@ -93,20 +94,17 @@ export default function Cart() {
               </div>
             </div>
             <div className="content__items">
-              {items &&
-                items.map((item:any) => {
-                  return <CartPizzaBlock key={item.id} {...item} />;
-                })}
+              {items?.map((item: any) => {
+                return <CartPizzaBlock key={item.id} {...item} />
+              })}
             </div>
             <div className="cart__bottom">
-              <div className="cart__bottom-details"> 
+              <div className="cart__bottom-details">
                 <span>
-                  {' '}
-                  Всего пицц: <b>{totalItems} шт.</b>{' '}
+                  Всего пицц: <b>{totalItems} шт.</b>
                 </span>
                 <span>
-                  {' '}
-                  Сумма заказа: <b>{totalPrice} ₽</b>{' '}
+                  Сумма заказа: <b>{totalPrice} ₽</b>
                 </span>
               </div>
               <div className="cart__bottom-buttons">
@@ -117,7 +115,8 @@ export default function Cart() {
                       height="14"
                       viewBox="0 0 8 14"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M7 13L1 6.93015L6.86175 1"
                         stroke="#D3D3D3"
@@ -138,23 +137,8 @@ export default function Cart() {
           </div>
         </div>
       ) : (
-        <div className="container container--cart">
-          <div className="cart cart--empty">
-            <h2>
-              Корзина пустая <b>😕</b>
-            </h2>
-            <p>
-              Вероятней всего, вы не заказывали ещё пиццу.
-              <br />
-              Для того, чтобы заказать пиццу, перейди на главную страницу.
-            </p>
-            <img src="/empty-cart.png" alt="Empty cart" />
-            <Link to="/" className="button button--black">
-              <span>Вернуться назад</span>
-            </Link>
-          </div>
-        </div>
+        <CartEmpty />
       )}
     </>
-  );
+  )
 }

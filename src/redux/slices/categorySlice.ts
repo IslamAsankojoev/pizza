@@ -18,6 +18,6 @@ const categorySlice = createSlice({
   },
 });
 
-export const { setCategoryId } = categorySlice.actions;
+export const actions = categorySlice.actions;
 
 export default categorySlice.reducer;

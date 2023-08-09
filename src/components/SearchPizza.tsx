@@ -1,37 +1,37 @@
-import React from 'react';
-import { SearchContext } from '../App';
-import _ from 'lodash';
+import { SearchContext } from "App"
+import _ from "lodash"
+import { FC, useCallback, useContext, useEffect, useRef, useState } from "react"
 
-const SearchPizza: React.FC = () => {
-  const [value, setValue] = React.useState('');
-  const { setSearchPizza, searchPizza } = React.useContext(SearchContext);
+const SearchPizza: FC = () => {
+  const [value, setValue] = useState("")
+  const { setSearchPizza, searchPizza } = useContext(SearchContext)
 
-  const inputRef = React.useRef<HTMLInputElement | any>();
+  const inputRef = useRef<HTMLInputElement | any>()
 
   const onClickClear = () => {
-    setSearchPizza('');
-    setValue('');
+    setSearchPizza("")
+    setValue("")
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  };
+  }
 
   // eslint-disable-next-line
-  const updateSearchValue = React.useCallback(
+  const updateSearchValue = useCallback(
     _.debounce((str: string): void => {
-      setSearchPizza(str);
+      setSearchPizza(str)
     }, 200),
-    [],
-  );
+    []
+  )
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateSearchValue(e.target.value);
-    setValue(e.target.value);
-  };
+    updateSearchValue(e.target.value)
+    setValue(e.target.value)
+  }
 
-  React.useEffect(() => {
-    console.log(searchPizza, 12);
-  }, [searchPizza]);
+  useEffect(() => {
+    console.log(searchPizza, 12)
+  }, [searchPizza])
   return (
     <>
       <span className="searchPizza">
@@ -78,7 +78,10 @@ const SearchPizza: React.FC = () => {
         />
         {value && (
           <div className="cart__item-remove">
-            <div className="button button--outline button--circle" onClick={onClickClear}>
+            <div
+              className="button button--outline button--circle"
+              onClick={onClickClear}
+            >
               <svg
                 width="10"
                 height="10"
@@ -100,7 +103,7 @@ const SearchPizza: React.FC = () => {
         )}
       </span>
     </>
-  );
-};
+  )
+}
 
-export default SearchPizza;
+export default SearchPizza

@@ -1,11 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
 type sortItem = {
   sortName: string;
   slug: string;
 }
-
 
 interface sortState {
   sortBy: sortItem
@@ -24,5 +22,5 @@ const sortSlice = createSlice({
   },
 });
 
-export const { setSortBy } = sortSlice.actions;
+export const actions = sortSlice.actions;
 export default sortSlice.reducer;

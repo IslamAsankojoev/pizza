@@ -1,45 +1,45 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/categorySlice';
-import { RootSate } from '../redux/store';
+import React from "react"
+import { useDispatch } from "react-redux"
+import { useTypedSelector } from "hooks/useTypedSelector"
+import { useActions } from "hooks/useActions"
 
 interface CategoriesProps {
-  items: string[];
+  items: string[]
 }
 
 const Categories: React.FC<CategoriesProps> = ({ items }) => {
-  const categoryId = useSelector((state: RootSate) => {
-    return state.category.categoryId;
-  });
-  const dispatch = useDispatch();
+  const categoryId = useTypedSelector((state) => {
+    return state.category.categoryId
+  })
+  const dispatch = useDispatch()
+  const {setCategoryId} = useActions()
 
   return (
     <div className="categories">
       <ul>
         <li
           onClick={() => {
-            dispatch(setCategoryId(0));
+            dispatch(setCategoryId(0))
           }}
-          className={categoryId === 0 ? 'active' : ''}
+          className={categoryId === 0 ? "active" : ""}
         >
           Все
         </li>
-        {items &&
-          items.map((item, index) => {
-            return (
-              <li
-                className={categoryId === index + 1 ? 'active' : ''}
-                onClick={() => {
-                  dispatch(setCategoryId(index + 1));
-                }}
-                key={index + 1}
-              >
-                {item}
-              </li>
-            );
-          })}
+        {items?.map((item, index) => {
+          return (
+            <li
+              className={categoryId === index + 1 ? "active" : ""}
+              onClick={() => {
+                dispatch(setCategoryId(index + 1))
+              }}
+              key={index + 1}
+            >
+              {item}
+            </li>
+          )
+        })}
       </ul>
     </div>
-  );
-};
-export default Categories;
+  )
+}
+export default Categories

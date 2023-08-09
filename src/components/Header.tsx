@@ -1,17 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { SearchPizza } from './index';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCart } from '../redux/slices/cartSlice';
-import { RootSate } from '../redux/store';
+import { Link } from "react-router-dom"
+import { SearchPizza } from "./index"
+import { useTypedSelector } from "hooks/useTypedSelector"
 
 export default function Header() {
-  const { totalPrice, totalItems } = useSelector((state: RootSate) => state.cart);
-  const dispatch = useDispatch();
+  const { totalPrice, totalItems } = useTypedSelector(
+    (state) => state.cart
+  )
 
-  React.useEffect(() => {
-    dispatch(setCart(JSON.parse(localStorage.getItem('cart') as string) || []));
-  }, [dispatch]);
   return (
     <div className="header">
       <div className="container">
@@ -65,5 +60,5 @@ export default function Header() {
         </div>
       </div>
     </div>
-  );
+  )
 }

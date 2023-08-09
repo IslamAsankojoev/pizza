@@ -1,7 +1,6 @@
-import React from 'react';
-import ContentLoader from 'react-content-loader';
+import ContentLoader from "react-content-loader"
 
-const PizzaScelet = () => (
+const PizzaSkeleton = () => (
   <div className="pizza-wrapper">
     <div className="pizza-block">
       <ContentLoader
@@ -23,6 +22,6 @@ const PizzaScelet = () => (
       </ContentLoader>
     </div>
   </div>
-);
+)
 
-export default PizzaScelet;
+export default PizzaSkeleton
