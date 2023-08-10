@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { useTypedSelector } from "hooks/useTypedSelector"
 import { useActions } from "hooks/useActions"
@@ -23,16 +22,14 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
   types,
   sizes
 }) => {
-  const {addToCart} = useActions()
+  const { addToCart } = useActions()
   const addedToCart = useTypedSelector((state) =>
     state.cart?.items?.find((item) => item.id === id)
   )
   const [activeVariant, setActiveVariant] = useState(types[0])
   const [activeSize, setActiveSize] = useState(0)
-  const dispatch = useDispatch()
 
   const onClickAdd = () => {
-    dispatch(
       addToCart({
         id,
         title,
@@ -40,9 +37,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
         price,
         types: pizzaVariants[activeVariant],
         sizes: sizes[activeSize],
-        count: 1
       })
-    )
   }
 
   return (

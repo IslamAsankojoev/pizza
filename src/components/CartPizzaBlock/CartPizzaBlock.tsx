@@ -1,6 +1,5 @@
 import { useActions } from "hooks/useActions"
 import React from "react"
-import { useDispatch } from "react-redux"
 
 interface CartPizzaBlockProps {
   id: number
@@ -22,16 +21,15 @@ const CartPizzaBlock: React.FC<CartPizzaBlockProps> = ({
   count
 }) => {
   const { removeFromCart, cartDecrement, addToCart } = useActions()
-  const dispatch = useDispatch()
 
   const onClickAdd = () => {
-    dispatch(addToCart({ id, title, imageUrl, price, types, sizes, count }))
+    addToCart({ id, title, imageUrl, price, types, sizes })
   }
   const onDecrementItem = () => {
-    dispatch(cartDecrement(id))
+    cartDecrement(id)
   }
   const onRemoveItem = () => {
-    dispatch(removeFromCart(id))
+    removeFromCart(id)
   }
 
   return (

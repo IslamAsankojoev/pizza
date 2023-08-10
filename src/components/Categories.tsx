@@ -1,5 +1,4 @@
 import React from "react"
-import { useDispatch } from "react-redux"
 import { useTypedSelector } from "hooks/useTypedSelector"
 import { useActions } from "hooks/useActions"
 
@@ -11,7 +10,6 @@ const Categories: React.FC<CategoriesProps> = ({ items }) => {
   const categoryId = useTypedSelector((state) => {
     return state.category.categoryId
   })
-  const dispatch = useDispatch()
   const {setCategoryId} = useActions()
 
   return (
@@ -19,7 +17,7 @@ const Categories: React.FC<CategoriesProps> = ({ items }) => {
       <ul>
         <li
           onClick={() => {
-            dispatch(setCategoryId(0))
+            setCategoryId(0)
           }}
           className={categoryId === 0 ? "active" : ""}
         >
@@ -30,7 +28,7 @@ const Categories: React.FC<CategoriesProps> = ({ items }) => {
             <li
               className={categoryId === index + 1 ? "active" : ""}
               onClick={() => {
-                dispatch(setCategoryId(index + 1))
+                setCategoryId(index + 1)
               }}
               key={index + 1}
             >

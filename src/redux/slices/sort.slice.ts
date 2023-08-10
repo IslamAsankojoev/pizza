@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type sortItem = {
+export type sortItem = {
   sortName: string;
   slug: string;
 }
@@ -22,5 +22,5 @@ const sortSlice = createSlice({
   },
 });
 
-export const actions = sortSlice.actions;
+export const { actions } = sortSlice;
 export default sortSlice.reducer;

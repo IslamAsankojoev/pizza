@@ -1,5 +1,4 @@
 import { FC, useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
 import { useTypedSelector } from "hooks/useTypedSelector"
 import { useActions } from "hooks/useActions"
 
@@ -16,7 +15,6 @@ const SortPopup: FC<SortPopupProps> = ({ items }) => {
   const [visiblePopup, setVisiblePopup] = useState(false)
   const sortBy = useTypedSelector((state) => state.sort.sortBy)
   const { setSortBy } = useActions()
-  const dispatch = useDispatch()
   const sortRef = useRef<HTMLDivElement | any>()
 
   const toggleVisiblePopup = () => {
@@ -24,7 +22,7 @@ const SortPopup: FC<SortPopupProps> = ({ items }) => {
   }
 
   const onSelectItem = (item: sortItem) => {
-    dispatch(setSortBy(item))
+    setSortBy(item)
     setVisiblePopup(false)
   }
 

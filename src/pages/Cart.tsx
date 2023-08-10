@@ -1,17 +1,15 @@
 import { Link } from "react-router-dom"
 import { CartPizzaBlock } from "components"
-import { useDispatch } from "react-redux"
 import CartEmpty from "components/Empty/CartEmpty"
 import { useTypedSelector } from "hooks/useTypedSelector"
 import { useActions } from "hooks/useActions"
 
 export default function Cart() {
   const { totalPrice, totalItems, items } = useTypedSelector((state) => state.cart)
-  const dispatch = useDispatch()
   const {clearCart} = useActions()
 
   const clearCartHandler = () => {
-    dispatch(clearCart())
+    clearCart()
   }
 
   return (

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react"
 import { PizzaBlock, Categories, SortPopup, PizzaSkeleton } from "components"
 import { SearchContext } from "App"
-import { useDispatch } from "react-redux"
-import { fetchPizza } from "redux/slices/pizzaSlice"
 import { useTypedSelector } from "hooks/useTypedSelector"
+import { getPizzaData } from "redux/slices/pizza.actions"
+import { useDispatch } from "react-redux"
 
 const categoriesNames = [
   "Мясные",
@@ -22,17 +22,16 @@ const Home: React.FC = () => {
   const { items, status } = useTypedSelector((state) => state.pizza)
   const sortBy = useTypedSelector((state) => state.sort.sortBy)
   const categoryId = useTypedSelector((state) => state.category.categoryId)
-  const dispatch = useDispatch()
   const { searchPizza } = useContext(SearchContext)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(
-      fetchPizza({
-        categoryId,
-        sortBy,
-        searchPizza
-      })
-    )
+    // @ts-ignore
+    dispatch(getPizzaData({
+      categoryId,
+      sortBy,
+      searchPizza
+    }))
     window.scrollTo(0, 0)
   }, [categoryId, sortBy, searchPizza, dispatch])
 

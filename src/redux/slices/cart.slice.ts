@@ -7,7 +7,7 @@ type CartItem = {
   price: number
   types: string
   sizes: number
-  count: number
+  count?: number
 }
 
 interface CartState {
@@ -16,15 +16,11 @@ interface CartState {
   totalPrice: number
 }
 
-const getTotalPrice = (cart: CartItem[]) => cart.reduce(
-  (totalPrice, item) => totalPrice + item.price * item.count,
-  0
-)
+const getTotalPrice = (cart: CartItem[]) =>
+  cart.reduce((totalPrice, item) => totalPrice + item.price * item.count, 0)
 
-const getTotalItems = (cart: CartItem[]) => cart.reduce(
-  (totalItems, item) => totalItems + item.count,
-  0
-)
+const getTotalItems = (cart: CartItem[]) =>
+  cart.reduce((totalItems, item) => totalItems + item.count, 0)
 
 const getLocalCart = () => {
   return JSON.parse(localStorage.getItem("cart")) || []
@@ -44,24 +40,22 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<CartItem>) {
-      const findItem = state.items.find(
-        (item) => item.id === action.payload.id
-      )
+    addToCart(state, {payload}: PayloadAction<CartItem>) {
+      const findItem = state.items.find((item) => item.id === payload.id)
+
       if (findItem) {
         findItem.count++
       } else {
-        state.items.push({ ...action.payload, count: 1 })
+        state.items.push({ ...payload, count: 1 })
       }
+
       state.totalPrice = getTotalPrice(state.items)
       state.totalItems = getTotalItems(state.items)
       setLocalCart(state.items)
     },
 
-    removeFromCart(state, action: PayloadAction<number>) {
-      state.items = state.items.filter((item) => {
-        return item.id !== action.payload
-      })
+    removeFromCart(state, {payload}: PayloadAction<number>) {
+      state.items = state.items.filter((item) => item.id !== payload)
 
       state.totalPrice = getTotalPrice(state.items)
       state.totalItems = getTotalItems(state.items)
@@ -80,7 +74,6 @@ const cartSlice = createSlice({
         if (item.id === action.payload) {
           item.count++
         }
-
         return item
       })
       state.totalPrice = getTotalPrice(state.items)
@@ -109,6 +102,6 @@ const cartSlice = createSlice({
   }
 })
 
-export const actions = cartSlice.actions
+export const { actions } = cartSlice
 
 export default cartSlice.reducer
