@@ -45,8 +45,10 @@ const Home: React.FC = () => {
         {!!categoryId ? `${categoriesNames[categoryId - 1]}` : "Все пиццы"}
       </h2>
       <div className="content__items">
-        {status === "loading"
-          ? Array(8)
+
+        {status === 'loading'
+          ? Array(4)
+
               .fill(null)
               .map((_, index) => {
                 return <PizzaSkeleton key={index} />
