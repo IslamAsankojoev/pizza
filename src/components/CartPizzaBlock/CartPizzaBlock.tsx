@@ -1,29 +1,36 @@
-import React from 'react';
-import { removeFromCart, cartDecrement, addToCart } from '../../redux/slices/cartSlice';
-import { useDispatch } from 'react-redux';
+import { useActions } from "hooks/useActions"
+import React from "react"
 
 interface CartPizzaBlockProps {
-  id: number;
-  title: string;
-  imageUrl: string;
-  price: number;
-  types: number[];
-  sizes: number[];
-  count: number;
+  id: number
+  title: string
+  imageUrl: string
+  price: number
+  types: string
+  sizes: number
+  count: number
 }
 
-const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, price, types, sizes, count }) => {
-  const dispatch = useDispatch();
+const CartPizzaBlock: React.FC<CartPizzaBlockProps> = ({
+  id,
+  title,
+  imageUrl,
+  price,
+  types,
+  sizes,
+  count
+}) => {
+  const { removeFromCart, cartDecrement, addToCart } = useActions()
 
   const onClickAdd = () => {
-    dispatch(addToCart({ id, title, imageUrl, price, types, sizes, count }));
-  };
+    addToCart({ id, title, imageUrl, price, types, sizes })
+  }
   const onDecrementItem = () => {
-    dispatch(cartDecrement(id));
-  };
+    cartDecrement(id)
+  }
   const onRemoveItem = () => {
-    dispatch(removeFromCart({ id, title }));
-  };
+    removeFromCart(id)
+  }
 
   return (
     <div className="cart__item">
@@ -40,14 +47,16 @@ const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, pri
         <button
           onClick={onDecrementItem}
           // @ts-ignore
-          disabled={count <= 1 && 'disabled'}
-          className="button button--outline button--circle cart__item-count-minus">
+          disabled={count <= 1 && "disabled"}
+          className="button button--outline button--circle cart__item-count-minus"
+        >
           <svg
             width="10"
             height="10"
             viewBox="0 0 10 10"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
               fill="#EB5A1E"
@@ -61,13 +70,15 @@ const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, pri
         <b>{count}</b>
         <div
           onClick={onClickAdd}
-          className="button button--outline button--circle cart__item-count-plus">
+          className="button button--outline button--circle cart__item-count-plus"
+        >
           <svg
             width="10"
             height="10"
             viewBox="0 0 10 10"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
               fill="#EB5A1E"
@@ -83,13 +94,17 @@ const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, pri
         <b>{count * price} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div onClick={onRemoveItem} className="button button--outline button--circle">
+        <div
+          onClick={onRemoveItem}
+          className="button button--outline button--circle"
+        >
           <svg
             width="10"
             height="10"
             viewBox="0 0 10 10"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg">
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
               fill="#EB5A1E"
@@ -102,8 +117,7 @@ const CartPizzaBlock:React.FC<CartPizzaBlockProps> = ({ id, title, imageUrl, pri
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-
-export default CartPizzaBlock;
+export default CartPizzaBlock

@@ -1,34 +1,37 @@
-import React from 'react';
-import { SearchContext } from '../App.tsx';
-import _ from 'lodash';
+import { SearchContext } from "App"
+import _ from "lodash"
+import { FC, useCallback, useContext, useEffect, useRef, useState } from "react"
 
-const SearchPizza = () => {
-  const [value, setValue] = React.useState('');
-  const { setSearchPizza, searchPizza } = React.useContext(SearchContext);
+const SearchPizza: FC = () => {
+  const [value, setValue] = useState("")
+  const { setSearchPizza, searchPizza } = useContext(SearchContext)
 
-  const inputRef = React.useRef();
+  const inputRef = useRef<HTMLInputElement | any>()
 
   const onClickClear = () => {
-    setSearchPizza('');
-    setValue('');
-    inputRef.current.focus();
-  };
+    setSearchPizza("")
+    setValue("")
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }
 
-  const updateSearchValue = React.useCallback(
-    _.debounce((str) => {
-      setSearchPizza(str);
+  // eslint-disable-next-line
+  const updateSearchValue = useCallback(
+    _.debounce((str: string): void => {
+      setSearchPizza(str)
     }, 200),
-    [],
-  );
+    []
+  )
 
-  const onChangeInput = (e) => {
-    updateSearchValue(e.target.value);
-    setValue(e.target.value);
-  };
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateSearchValue(e.target.value)
+    setValue(e.target.value)
+  }
 
-  React.useEffect(() => {
-    console.log(searchPizza, 12);
-  }, [searchPizza]);
+  useEffect(() => {
+    console.log(searchPizza, 12)
+  }, [searchPizza])
   return (
     <>
       <span className="searchPizza">
@@ -38,7 +41,8 @@ const SearchPizza = () => {
           id="EditableLine"
           version="1.1"
           viewBox="0 0 32 32"
-          xmlns="http://www.w3.org/2000/svg">
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <circle
             cx="14"
             cy="14"
@@ -49,7 +53,8 @@ const SearchPizza = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeMiterlimit="10"
-            strokeWidth="2"></circle>
+            strokeWidth="2"
+          ></circle>
           <line
             fill="none"
             id="XMLID_44_"
@@ -61,7 +66,8 @@ const SearchPizza = () => {
             x1="27"
             x2="20.366"
             y1="27"
-            y2="20.366"></line>
+            y2="20.366"
+          ></line>
         </svg>
         <input
           ref={inputRef}
@@ -72,13 +78,17 @@ const SearchPizza = () => {
         />
         {value && (
           <div className="cart__item-remove">
-            <div className="button button--outline button--circle" onClick={onClickClear}>
+            <div
+              className="button button--outline button--circle"
+              onClick={onClickClear}
+            >
               <svg
                 width="10"
                 height="10"
                 viewBox="0 0 10 10"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M5.92001 3.84V5.76V8.64C5.92001 9.17016 5.49017 9.6 4.96001 9.6C4.42985 9.6 4.00001 9.17016 4.00001 8.64L4 5.76L4.00001 3.84V0.96C4.00001 0.42984 4.42985 0 4.96001 0C5.49017 0 5.92001 0.42984 5.92001 0.96V3.84Z"
                   fill="#EB5A1E"
@@ -93,7 +103,7 @@ const SearchPizza = () => {
         )}
       </span>
     </>
-  );
-};
+  )
+}
 
-export default SearchPizza;
+export default SearchPizza
