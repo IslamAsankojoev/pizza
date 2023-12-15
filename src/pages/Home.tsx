@@ -41,7 +41,7 @@ const Home: React.FC = () => {
       </h2>
       <div className="content__items">
         {status === 'loading'
-          ? Array(8)
+          ? Array(4)
               .fill(null)
               .map((_, index) => {
                 return <PizzaScelet key={index} />;
